@@ -144,6 +144,8 @@ Arch::Arch(ArchArgs args) : args(args)
         n_pips++;
     }
     pip2net.resize(n_pips, nullptr);
+
+    lutperm_allowed.resize(chip_info->width * chip_info->height * 4);
 }
 
 // -----------------------------------------------------------------------
