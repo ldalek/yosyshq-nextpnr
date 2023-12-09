@@ -1261,13 +1261,18 @@ class StaticPlacer
         prepare_density_bins();
         initialise();
         bool legalised_ip = false;
+#ifdef ARCH_ICE40
+        const int logic_groups = 1;
+#else
+        const int logic_groups = 2;
+#endif
         while (true) {
             step();
             for (auto &penalty : dens_penalty)
                 penalty *= 1.025;
             if (!legalised_ip) {
                 float ip_overlap = 0;
-                for (int i = 2; i < int(groups.size()); i++)
+                for (int i = logic_groups; i < int(groups.size()); i++)
                     ip_overlap = std::max(ip_overlap, groups.at(i).overlap);
                 if (ip_overlap < 0.15) {
                     legalise_step(true);
@@ -1275,7 +1280,7 @@ class StaticPlacer
                 }
             } else {
                 float logic_overlap = 0;
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < logic_groups; i++)
                     logic_overlap = std::max(logic_overlap, groups.at(i).overlap);
                 if (logic_overlap < 0.1) {
                     legalise_step(false);
