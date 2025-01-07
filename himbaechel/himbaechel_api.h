@@ -130,6 +130,9 @@ struct HimbaechelAPI
     // For custom placer configuration
     virtual void configurePlacerHeap(PlacerHeapCfg &cfg) {};
 
+    // HACK
+    virtual bool isPipInverting(PipId pip) const { return false; }
+
     virtual ~HimbaechelAPI() {};
 };
 
